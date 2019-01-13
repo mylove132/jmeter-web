@@ -1,0 +1,10 @@
+server:
+  port: 8081
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+    suffix: .html
+  servlet:
+    multipart:
+      max-file-size: 5Mb

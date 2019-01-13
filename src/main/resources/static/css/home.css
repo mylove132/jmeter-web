@@ -1,0 +1,50 @@
+body{
+    background-image: url("../img/back.png");
+}
+.tab ul{
+    margin-left: 150px;
+}
+.tab li{
+    list-style: none;
+    float:left;
+    padding:10px;
+    margin-left:100px;
+    position:relative;
+    color:white;
+}
+.tab li a{
+    color: white;
+    text-decoration: none;
+}
+.tab::after{
+    content:"";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.tab ul::after{
+    content:"";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.tab li::after{
+    border-radius: 3px;
+    content:'';
+    position:absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: -1;
+    background-color: #09818D;
+    -moz-transform: skewX(-25deg);
+    -ms-transform: skewX(-25deg);
+    -webkit-transform: skewX(-25deg);
+    transform:skewX(-25deg);
+}
+.tab li:hover::after{
+    background-color:#58CAD0 ;
+}

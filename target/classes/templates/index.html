@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>jmeter dubbo</title>
+    <script src="/js/jquery-3.2.1.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+<body>
+   <h2>zookeeper选择</h2>
+   <div>
+       <select id="address">
+           <option value="请选择">===请选择===</option>
+           <option value="dev">10.10.6.3:2181</option>
+           <option value="hotfix">172.18.4.48:2181</option>
+       </select>
+   </div>
+   <h2>接口测试数据</h2>
+   <div>
+       Jmeter 版本：<select id="jmeter_version">
+           <option value="3.0">3.0</option>
+           <option value="3.1">3.1</option>
+           <option value="3.2">3.2</option>
+           <option value="5.0">5.0</option>
+       </select>
+       压测接口:<input type="text" name="interfaceName" id="interfaceName" />
+       压测方法:<input type="text" name="methodName" id="methodName" />
+       接口请求参数类型:<input type="text" name="requestBeanName" id="requestBeanName" />
+       <h2>接口请求参数</h2>
+       <div class="param" style="width: 800px;height: 200px;border: solid 2px green">
+           <input type="button" value="增加" id="addTable"/>
+           <input type="button" value="删除" id="deleteTable"/>
+           <table id="table"></table>
+       </div>
+       <div>
+           <input type="button" id="test_interface" value="测试接口" />
+           <div id="show_test_result" style="width: 800px;height: 200px;border: solid 2px blue;"></div>
+       </div>
+   </div>
+   <h2>一键生成压测脚本</h2>
+   并发数:<input type="text" name="preNumber" id="preNumber" />
+   压测时长(单位：秒):<input type="text" name="preTime" id="preTime" />
+   </br>
+   压测脚本名称：<input type="text" name="preName" id="preName" />
+   <div id="generate">
+       <input type="button" value="生成脚本" id="auto_generate_jmx_script" />
+       <label id="jmx_file_name"></label>
+   </div>
+   <div>
+       <h2 th:inlines="text">文件上传</h2>
+       <form method="POST" enctype="multipart/form-data" action="singleFileUpload">
+           <input type="file" name="file" />
+           <input type="submit" value="上传" />
+       </form>
+   </div>
+</body>
+</html>

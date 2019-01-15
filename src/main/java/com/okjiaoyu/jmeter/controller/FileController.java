@@ -1,5 +1,4 @@
 package com.okjiaoyu.jmeter.controller;
-
 import com.okjiaoyu.jmeter.response.CommonResponse;
 import com.okjiaoyu.jmeter.response.ErrorCode;
 import com.okjiaoyu.jmeter.response.Response;
@@ -7,8 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
@@ -17,6 +14,8 @@ import java.util.Map;
 @RestController
 public class FileController {
 
+
+    String filePath = "/Users/liuzhanhui/lzh/download";
     /**
      * 文件上传
      * @param file
@@ -26,7 +25,7 @@ public class FileController {
     public Response fileUpload(MultipartFile file){
         String fileName = file.getOriginalFilename();
         String fileType = fileName.substring(fileName.lastIndexOf(".")+1);
-        File fileDir = new File("D:\\tmp");
+        File fileDir = new File(filePath);
         if(!fileDir.exists()){
             fileDir.mkdir();
         }
@@ -48,7 +47,7 @@ public class FileController {
      * @param response
      */
     @RequestMapping(value = "/downloadFile", method= RequestMethod.GET)
-    public void downFileFromServer(String fileName, String filePath,HttpServletRequest request, HttpServletResponse response){
+    public void downFileFromServer(String fileName, HttpServletResponse response){
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
         byte[] buff = new byte[1024];
@@ -56,7 +55,7 @@ public class FileController {
         OutputStream os = null;
         try {
             os = response.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(new File("tmp",fileName)));
+            bis = new BufferedInputStream(new FileInputStream(new File(filePath,fileName)));
             int i = bis.read(buff);
             while (i != -1) {
                 os.write(buff, 0, buff.length);

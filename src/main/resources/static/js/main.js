@@ -57,4 +57,17 @@ $(document).ready(function () {
             }
         }
     });
+    //添加中心机IP输入框项
+    function addCenterIpGrp(obj){
+        html = '<div class="input-group centerIp">'+
+            '<label class="input-group-addon">IP：</label>'+
+            '<input type="text" class="form-control" id="ipInput">'+
+            '<label class="input-group-addon">注释：</label>'+
+            '<input type="text" class="form-control" id="descInput">'+
+            '<span class="input-group-btn">'+
+            '<button class="btn btn-info" type="button" data-toggle="tooltip" title="删除" id="delCenterIpGrp"><span class="glyphicon glyphicon-minus"></span></button>'+
+            '</span>'+
+            '</div>';
+        obj.insertAdjacentHTML('beforebegin',html)
+    }
 });

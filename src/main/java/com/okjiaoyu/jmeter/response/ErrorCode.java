@@ -4,9 +4,13 @@ public enum ErrorCode {
     // 成功
     SUCCESS(0),
     //获取dubbo接口失败
-    DUBBO_SERVICE_FAIL(1001, "dubbo接口获取失败"),
+    DUBBO_SERVICE_FAIL(1001, "dubbo接口获取service失败"),
+    //获取dubbo接口失败
+    DUBBO_METHOD_FAIL(1002, "dubbo接口获取method失败"),
     //上传文件为空
     AUTO_GENERATE_JMX_FILE_FAIL(3001, "自动生成jmx文件失败"),
+    //请求参数为空
+    REQUEST_PARAM_NULL(5000),
     //上传文件为空
     UPLOAD_FILE_EMPTY(2001, "上传的文件为空，请检查"),
     //上传文件转换异常
@@ -46,7 +50,8 @@ public enum ErrorCode {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public ErrorCode setMsg(String msg){
         this.msg = msg;
+        return this;
     }
 }

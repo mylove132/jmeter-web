@@ -1,5 +1,7 @@
 package com.okjiaoyu.jmeter;
 
+import com.okjiaoyu.jmeter.cache.CacheListener;
+import com.okjiaoyu.jmeter.cache.CacheManagerImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
@@ -14,6 +16,8 @@ import javax.servlet.MultipartConfigElement;
 @SpringBootApplication(exclude = MongoAutoConfiguration.class)
 public class Application {
     public static void main(String[] args) {
+        CacheListener listener = new CacheListener(new CacheManagerImpl());
+        listener.startListen();
         SpringApplication.run(Application.class, args);
     }
     @Bean

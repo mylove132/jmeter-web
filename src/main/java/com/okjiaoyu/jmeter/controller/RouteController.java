@@ -8,6 +8,6 @@ public class RouteController {
 
     @RequestMapping("/")
     public String index(){
-        return "index";
+        return "home";
     }
 }

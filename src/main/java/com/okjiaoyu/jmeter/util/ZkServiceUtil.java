@@ -8,12 +8,12 @@ import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.utils.ReferenceConfigCache;
 import com.alibaba.dubbo.registry.RegistryService;
 import com.alibaba.dubbo.rpc.service.GenericService;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.okjiaoyu.jmeter.cache.CacheEntity;
+import com.okjiaoyu.jmeter.cache.CacheManager;
+import com.okjiaoyu.jmeter.cache.CacheManagerImpl;
+import com.okjiaoyu.jmeter.entity.DubboEntity;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -24,8 +24,10 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ZkServiceUtil {
 
+    private CacheManager cacheManager = new CacheManagerImpl();
+    private final String cacheName = "dubbo_services_method_cache";
 
-    public static Map<String, String[]> getInterfaceMethods(String address) {
+    private Map<String, String[]> getInterfaceMethods(String address) {
         Map<String, String[]> serviceMap = new HashMap<>();
         try {
             ApplicationConfig applicationConfig = new ApplicationConfig();
@@ -62,40 +64,55 @@ public class ZkServiceUtil {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        CacheEntity entity = new CacheEntity(serviceMap, (1000*60*60*24L), System.currentTimeMillis());
+        cacheManager.putCache(cacheName,entity);
         return serviceMap;
     }
 
-    public static GenericService getGenericService(String address, String interfaceName) {
+    /**
+     * 获取所有的services
+     * @param address
+     * @return
+     */
+    public Set<String> getServices(String address){
+        if (cacheManager.isExistCacheKey(cacheName)){
+            CacheEntity cacheEntity = cacheManager.getCacheEntityByCacheKey(cacheName);
+            Map<String, String[]> servicesMap = (Map<String, String[]>) cacheEntity.getCacheObject();
+            return servicesMap.keySet();
+        }
+        return getInterfaceMethods(address).keySet();
+    }
+
+    /**
+     * 获取services对应的方法
+     * @param serviceName
+     * @return
+     */
+    public String[] getMethods(String serviceName){
+        if (cacheManager.isExistCacheKey(cacheName)){
+            CacheEntity cacheEntity = cacheManager.getCacheEntityByCacheKey(cacheName);
+            Map<String, String[]> servicesMap = (Map<String, String[]>) cacheEntity.getCacheObject();
+            return servicesMap.get(serviceName);
+        }
+
+        return null;
+    }
+
+    public GenericService getGenericService(DubboEntity entity) {
         RegistryConfig registry = new RegistryConfig();
-        registry.setAddress(address);
-        registry.setProtocol("zookeeper");
-        registry.setGroup(null);
-        registry.setTimeout(10000);
+        registry.setAddress(entity.getAddress());
+        registry.setProtocol(entity.getProtocol());
+        registry.setGroup(entity.getGroup());
         ReferenceConfig<GenericService> reference = new ReferenceConfig<GenericService>();
         reference.setApplication(new ApplicationConfig("qa-dubbo-jmeter-web"));
-        reference.setInterface(interfaceName);
+        reference.setInterface(entity.getInterfaceName());
         reference.setProtocol("dubbo");
-        reference.setTimeout(5000);
-        reference.setVersion("3.0.0");
-        reference.setGroup(null);
+        reference.setTimeout(entity.getTimeOut());
+        reference.setVersion(entity.getVersion());
+        reference.setGroup(entity.getGroup());
         reference.setRegistry(registry);
         reference.setGeneric(true);
         GenericService genericService = reference.get();
         return genericService;
-    }
-    public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
-        final ObjectMapper objectMapper = new ObjectMapper()
-                .configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        GenericService service = getGenericService("172.18.4.48:2181","com.noriental.lessonsvr.rservice.ResPackageService");
-        Map<String,Object> map = new HashMap<>();
-        map.put("id","36019");
-        Object result = null;
-                try {
-                    service.$invoke("findResPackageDetail", new String[]{"com.noriental.lessonsvr.entity.request.LongRequest"}, new Object[]{map});
-                }catch (Exception e){
-                    System.out.println("zk连接超时");
-                    return;
-                }
-                System.out.println(result.toString().contains("success"));
     }
 }

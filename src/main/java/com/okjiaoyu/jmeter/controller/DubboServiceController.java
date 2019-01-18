@@ -12,6 +12,7 @@ import com.okjiaoyu.jmeter.util.ClassUtils;
 import com.okjiaoyu.jmeter.util.ZkServiceUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,13 @@ public class DubboServiceController {
 
     @RequestMapping(value = "getDubboServices", method = RequestMethod.POST)
     public Response getDubboServices(String address) {
-        Set<String> services = zkServiceUtil.getServices(address);
+        Set<String> services = null;
+        try {
+            services = zkServiceUtil.getServices(address);
+        }catch (RuntimeException e){
+            return CommonResponse.makeErrRsp(e.getMessage());
+        }
+
         if (services != null && !services.isEmpty()) {
             Map<String, Object> result = new HashMap<>();
             result.put("serviceList", services);
@@ -37,8 +44,8 @@ public class DubboServiceController {
     }
 
     @RequestMapping(value = "getDubboMethods", method = RequestMethod.POST)
-    public Response getDubboMethods(String serviceName) {
-        String[] methodList = zkServiceUtil.getMethods(serviceName);
+    public Response getDubboMethods(String address, String serviceName) {
+        String[] methodList = zkServiceUtil.getMethods(address, serviceName);
         if (methodList != null && methodList.length > 0) {
             Map<String, Object> result = new HashMap<>();
             result.put("methodList", methodList);
@@ -48,7 +55,7 @@ public class DubboServiceController {
     }
 
     @RequestMapping(value = "dubboTest", method = RequestMethod.POST)
-    public Response testDubboInterface(DubboEntity entity) {
+    public Response testDubboInterface(@RequestBody DubboEntity entity) {
         if (entity.getInterfaceName() == null || entity.getInterfaceName().equals("")) {
             return CommonResponse.makeRsp(ErrorCode.REQUEST_PARAM_NULL.setMsg("接口不能为空"));
         }
@@ -82,7 +89,6 @@ public class DubboServiceController {
         if (entity.getVersion() == null || entity.getVersion().equals("")) {
             entity.setVersion("3.0.0");
         }
-
 
         GenericService service = zkServiceUtil.getGenericService(entity);
         Object result = service.$invoke(entity.getMethodName(),

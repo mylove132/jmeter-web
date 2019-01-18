@@ -57,7 +57,7 @@ public class ZkServiceUtil {
                     for (String str : provider.keySet()) {
                         String methodName = provider.get(str).getParameter(Constants.METHODS_KEY);
                         String[] methods = methodName.split(",");
-                        serviceMap.put(url, methods);
+                        serviceMap.put(url.split(":")[0], methods);
                     }
                 }
             }
@@ -65,7 +65,7 @@ public class ZkServiceUtil {
             throw new RuntimeException(e);
         }
         CacheEntity entity = new CacheEntity(serviceMap, (1000*60*60*24L), System.currentTimeMillis());
-        cacheManager.putCache(cacheName,entity);
+        cacheManager.putCache(address+cacheName,entity);
         return serviceMap;
     }
 
@@ -75,8 +75,8 @@ public class ZkServiceUtil {
      * @return
      */
     public Set<String> getServices(String address){
-        if (cacheManager.isExistCacheKey(cacheName)){
-            CacheEntity cacheEntity = cacheManager.getCacheEntityByCacheKey(cacheName);
+        if (cacheManager.isExistCacheKey(address+cacheName)){
+            CacheEntity cacheEntity = cacheManager.getCacheEntityByCacheKey(address+cacheName);
             Map<String, String[]> servicesMap = (Map<String, String[]>) cacheEntity.getCacheObject();
             return servicesMap.keySet();
         }
@@ -88,9 +88,9 @@ public class ZkServiceUtil {
      * @param serviceName
      * @return
      */
-    public String[] getMethods(String serviceName){
-        if (cacheManager.isExistCacheKey(cacheName)){
-            CacheEntity cacheEntity = cacheManager.getCacheEntityByCacheKey(cacheName);
+    public String[] getMethods(String address, String serviceName){
+        if (cacheManager.isExistCacheKey(address+cacheName)){
+            CacheEntity cacheEntity = cacheManager.getCacheEntityByCacheKey(address+cacheName);
             Map<String, String[]> servicesMap = (Map<String, String[]>) cacheEntity.getCacheObject();
             return servicesMap.get(serviceName);
         }

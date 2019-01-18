@@ -19,8 +19,7 @@ package com.okjiaoyu.jmeter.util;
 import com.google.common.reflect.TypeToken;
 import com.okjiaoyu.jmeter.entity.RequestTypeArgments;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jorphan.logging.LoggingManager;
-import org.apache.log.Logger;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -32,7 +31,7 @@ import java.util.List;
  */
 public class ClassUtils {
 
-	private static final Logger log = LoggingManager.getLoggerForClass();
+	private static final Logger log = Logger.getLogger(ClassUtils.class);
 
 	private static final String TYPE_NAME_PREFIX = "class ";
 

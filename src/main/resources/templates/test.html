@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var arrt = new Array();
+    arrt = [{"paramType": "com.noriental.adminsvr.request.RequestEntity", "paramValue": "{\"entity\":[200,201,202]}"}];
+    function tojson(arr){
+        console.log(arr.length)
+        if(!arr.length) return null;
+        var i = 0;
+        len = arr.length,
+            array = [];
+        for(;i<len;i++){
+            console.log(arr[i][0])
+            console.log(arr[i][1])
+            array.push({"paramType":arr[i][0],"paramValue":arr[i][1]});
+        }
+        return JSON.stringify(array);
+    }
+    console.log(tojson(arrt))
+</script>
+</body>
+</html>

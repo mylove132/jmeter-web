@@ -151,9 +151,6 @@
                     </div>
                     <div class="row">
                         <form>
-                            <div class="alert alert-danger form-group" id="service_tip" style="display: none">
-                                <strong>请输入接口名称</strong>
-                            </div>
                             <div class="form-group">
                                 <label for="interface_name">接口名称</label>
                                 <input id="interface_name" list="interface_list" class="form-control"
@@ -161,17 +158,15 @@
                                 <datalist id="interface_list">
                                 </datalist>
                             </div>
-                            <div class="alert alert-danger form-group" id="method_tip" style="display: none">
-                                <strong>请输入方法名称</strong>
-                            </div>
                             <div class="form-group">
                                 <label for="method_name">方法名称</label>
                                 <input id="method_name" list="method_list" class="form-control" type="text">
                                 <datalist id="method_list">
                                 </datalist>
                             </div>
-                            <div class="alert alert-danger form-group" id="param_tip" style="display: none">
-                                <strong>请添加请求参数</strong>
+                            <div class="form-group">
+                                <label for="timeOut">超时时间</label>
+                                <input id="timeOut" class="form-control" oninput="value=value.replace(/[^\d]/g,'')" type="text">
                             </div>
                             <div class="input-group" id="centerParamGroup">
                                 <label class="input-group-addon" id="basic-addon5">请求参数:</label>
@@ -183,9 +178,21 @@
                             <p></p>
                             <p></p>
                             <div class="form-group">
-                                <button class="btn btn-info" id="test" onclick="testInterface()">
+                                <button class="btn btn-info" id="test" onclick="testDubbo()">
                                     一键测试
                                 </button>
+                            </div>
+                            <p></p>
+                            <p></p>
+                            <div class="form-group">
+                                <button class="btn btn-info" id="jmeter_script">
+                                    一键生成jmeter脚本
+                                </button>
+                            </div>
+                            <div class="form-group" id="show_result" style="display:none;">
+                                <label for="testResult">测试结果</label>
+                                <textarea class="form-control" id="testResult" rows="20" readonly="readonly"
+                                          style="background-color: #122b40;resize: none;color: white;"></textarea>
                             </div>
                         </form>
                     </div>

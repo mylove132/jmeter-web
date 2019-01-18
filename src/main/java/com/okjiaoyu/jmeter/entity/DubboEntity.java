@@ -1,6 +1,9 @@
 package com.okjiaoyu.jmeter.entity;
 
+import com.okjiaoyu.jmeter.util.JsonUtils;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,7 +56,7 @@ public class DubboEntity implements Serializable {
     }
 
     public String getVersion() {
-        return version;
+        return version == null ? "" : version;
     }
 
     public void setVersion(String version) {
@@ -61,7 +64,7 @@ public class DubboEntity implements Serializable {
     }
 
     public String getGroup() {
-        return group;
+        return group != null ? group : "";
     }
 
     public void setGroup(String group) {
@@ -69,7 +72,7 @@ public class DubboEntity implements Serializable {
     }
 
     public Integer getTimeOut() {
-        return timeOut;
+        return timeOut != null ? timeOut : 0;
     }
 
     public void setTimeOut(Integer timeOut) {
@@ -82,5 +85,21 @@ public class DubboEntity implements Serializable {
 
     public void setRequestParamTypeArgs(List<RequestTypeArgments> requestParamTypeArgs) {
         this.requestParamTypeArgs = requestParamTypeArgs;
+    }
+
+    public static void main(String[] args) {
+        DubboEntity dubboEntity = new DubboEntity();
+        dubboEntity.setGroup(null);
+        dubboEntity.setVersion(null);
+        dubboEntity.setTimeOut(null);
+        dubboEntity.setAddress("172.18.4.48:2181");
+        dubboEntity.setProtocol("zookeeper");
+        dubboEntity.setInterfaceName("com.noriental.adminsvr.service.teaching.ChapterService");
+        dubboEntity.setMethodName("findByIds");
+        List<RequestTypeArgments> requestTypeArgments = new ArrayList<>();
+        RequestTypeArgments typeArgments = new RequestTypeArgments("com.noriental.adminsvr.response.ResponseEntity","{\"entity\":[200,201,202]}");
+        requestTypeArgments.add(typeArgments);
+        dubboEntity.setRequestParamTypeArgs(requestTypeArgments);
+        System.out.println(JsonUtils.toJson(dubboEntity));
     }
 }

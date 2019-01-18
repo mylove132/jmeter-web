@@ -17,6 +17,9 @@ public class RequestTypeArgments implements Serializable {
     private String paramType;
     private String paramValue;
 
+    public RequestTypeArgments() {
+    }
+
     public RequestTypeArgments(String paramType, String paramValue) {
         setParamType(paramType);
         setParamValue(paramValue);

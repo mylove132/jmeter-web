@@ -23,6 +23,7 @@ $(".page-sidebar .sidebar-menu a").each(function () {
 function getDubboServices() {
     var register_protocol = $("#registry_protocol").find("option:selected").text();
     var register_address = $("#registry_address").find("option:selected").text();
+    $("#interface_list").empty();
     if (register_protocol == "zookeeper" && register_address != "===请选择===") {
         $.bootstrapLoading.start({loadingTips: "正在请求数据，请稍候..."});
         $.ajax({
@@ -43,6 +44,7 @@ function getDubboServices() {
         });
     }
 };
+
 /**
  * 获取dubbo接口的方法
  */
@@ -53,6 +55,7 @@ function getDubboMethods() {
         type: "POST",
         url: "/getDubboMethods",
         data: {
+            address: $("#registry_address").val() != "===请选择===" ? $("#registry_address").val() : "172.18.4.48:2181",
             serviceName: $("#interface_name").val()
         },
         dataType: "json",
@@ -65,6 +68,7 @@ function getDubboMethods() {
         }
     });
 };
+
 /**
  * 动态添加参数
  * @param obj
@@ -83,54 +87,56 @@ function addCenterIpGrp(obj) {
 };
 /**
  * 删除参数列
+ *
  */
 $(document).on('click', '#delCenterIpGrp', function () {
     var el = this.parentNode.parentNode;
     el.parentNode.removeChild(el);
 });
 
-function testInterface () {
-    var service_name = $("#interface_name").val();
-    var method_name = $("#method_name").val();
-    var protocol = $("#registry_protocol").find("option:selected").text();
-    var address = $("#registry_address").find("option:selected").text();
-    console.log(protocol+"---->"+address);
-    if (protocol == "===请选择==="||protocol == null){
-        protocol = "zookeeper";
-    }
-    if (address == "===请选择==="||address == null){
-        $.confrim({
-            title: '协议地址!',
-            content: '是否使用dev的zk地址?',
-            confirm: function(){
-                address = "10.10.6.3:2181";
-            },
-            cancel: function(){
-                address == "===请选择===";
-            }
-        });
 
-    }
-    if (service_name == null || service_name == ""){
-        $("#service_tip").css('display','block');
-        $("#interface_name").focus();
-    }
-    if (method_name == null || method_name == ""){
-        $("#method_tip").css('display','block');
-        $("#method_name").focus();
-    }
-    if ($(".request_param_type").length<1){
-        $("#param_tip").css('display','block');
-    }
+function testDubbo() {
+    alert($("#registry_protocol").find("option:selected").text())
+    alert($("#registry_address").find("option:selected").text())
+    alert($("#interface_name").val())
+    alert($("#method_name").val())
+    alert($("#timeOut").val())
+
+    var arr = new Array();
+    var element = {
+        "paramType": "com.noriental.adminsvr.request.RequestEntity",
+        "paramValue": '{"entity":[200,201,202]}'
+    };
+    arr.push(element);
+
     $.ajax({
-        url:"",
-        data:{
-            serviceName:service_name,
-            methodName:method_name
-        },
-        dataType:"json",
-        success:function(result){
-
+        type: "POST",
+        url: "/dubboTest",
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify({
+            address: $("#registry_address").find("option:selected").text(),
+            protocol: $("#registry_protocol").find("option:selected").text(),
+            interfaceName: $("#interface_name").val(),
+            methodName: $("#method_name").val(),
+            version: $("#timeOut").val(),
+            requestParamTypeArgs: arr
+        }),
+        dataType: "json",
+        success: function (data) {
+            alert(data)
         }
-    })
-}
+    });
+
+
+    function tojson(arr){
+        if(!arr.length) return null;
+        var i = 0;
+        len = arr.length,
+            array = [];
+        for(;i<len;i++){
+            array.push({"paramType":arr[i][0],"paramValue":arr[i][1]});
+        }
+        return JSON.stringify(array);
+    }
+
+};

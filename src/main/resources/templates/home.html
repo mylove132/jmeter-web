@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -119,6 +119,13 @@
                             </ul>
                         </li>
                     </ul>
+                </li>
+                <li class="panel" id="login_user" style="margin-top: 200px">
+                    <a class="panel-heading collapsed" style="display: inline;color: #eea236;">登录用户：</a>
+                    <a class="panel-heading collapsed" th:text="${username}" style="display: inline;color: #eea236;"></a>
+                </li>
+                <li class="panel" id="logout">
+                    <a class="panel-heading collapsed" href="/logout" style="color: #1b6d85">退出</a>
                 </li>
             </ul>
         </div>

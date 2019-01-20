@@ -17,7 +17,14 @@ public enum ErrorCode {
     UPLOAD_FILE_TRANSFER_FAIL(2002, "上传文件转换失败"),
     //未知错误
     FAIL(-1),
-
+    //用户名不存在
+    LOGIN_UNKNOW_NAME_FAIL(6001,"未知的用户名"),
+    //密码错误
+    LOGIN_PASSWORD_FAIL(6002,"密码错误"),
+    //账号锁定
+    LOGIN_ACCOUNT_ISLOCK(6003,"账号不可用"),
+    //账号认证失败
+    LOGIN_PASSWORD_AUTHERTICATION_FAIL(6004,"账号密码认证失败"),
     // 未认证（签名错误）
     UNAUTHORIZED(401),
 

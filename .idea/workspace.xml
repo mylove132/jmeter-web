@@ -2,77 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d637c06f-9d4f-4b69-bb28-f041879fe395" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/util/CleanReportListen.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/util/ConfigUtil.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/controller/FileController.java" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/controller/FileController.java" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/Application.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/cache/CacheEntity.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/cache/CacheListener$1.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/cache/CacheListener.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/cache/CacheManager.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/cache/CacheManagerImpl.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/config/ShiroConfig.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/config/ShiroRealm.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/DubboServiceController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/FileController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/LoginController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/RouteController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/dao/UserMapper.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/entity/AutoGenerateJmxEntity.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/entity/DubboEntity.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/entity/RequestTypeArgments.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/entity/User.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/response/CommonResponse.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/response/ErrorCode.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/response/Response.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/service/AutoGenerateJmxService.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$1.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$10.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$11.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$12.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$13.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$14.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$15.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$16.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$17.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$18.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$2.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$3.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$4.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$5.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$6.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$7.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$8.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$9.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/Constants.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/JMXAutoGenerateUtil.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/JsonUtils.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/MD5Util.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/RegistryServerSync.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/RmtShellExecutor.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ZkServiceUtil.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/log4j.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/css/bootstrap.min.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/css/home.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/fonts/glyphicons-halflings-regular.eot" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/fonts/glyphicons-halflings-regular.svg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/fonts/glyphicons-halflings-regular.woff" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/fonts/glyphicons-halflings-regular.woff2" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/img/back.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/img/loading.gif" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/img/logo.svg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/bootbox.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/bootstrap-loading.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/bootstrap.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/home.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/jquery-3.2.1.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/home.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/login.html" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -594,12 +524,12 @@
       <workItem from="1547554540834" duration="17749000" />
       <workItem from="1547691119069" duration="10323000" />
       <workItem from="1547774979560" duration="17394000" />
-      <workItem from="1547967872841" duration="16862000" />
+      <workItem from="1547967872841" duration="17041000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115454000" />
+    <option name="totallyTimeSpent" value="115633000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -615,7 +545,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43074793" sideWeight="0.5028612" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19663742" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19663742" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -630,7 +560,7 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27836412" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27836412" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963988" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />

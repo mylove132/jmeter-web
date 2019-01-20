@@ -2,6 +2,7 @@ package com.okjiaoyu.jmeter.controller;
 import com.okjiaoyu.jmeter.response.CommonResponse;
 import com.okjiaoyu.jmeter.response.ErrorCode;
 import com.okjiaoyu.jmeter.response.Response;
+import com.okjiaoyu.jmeter.util.ConfigUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +15,6 @@ import java.util.Map;
 @RestController
 public class FileController {
 
-
-    String filePath = "/Users/liuzhanhui/lzh/download";
     /**
      * 文件上传
      * @param file
@@ -25,7 +24,7 @@ public class FileController {
     public Response fileUpload(MultipartFile file){
         String fileName = file.getOriginalFilename();
         String fileType = fileName.substring(fileName.lastIndexOf(".")+1);
-        File fileDir = new File(filePath);
+        File fileDir = new File(ConfigUtil.getInstance().getValue("fileDownLoadPath"));
         if(!fileDir.exists()){
             fileDir.mkdir();
         }
@@ -55,7 +54,7 @@ public class FileController {
         OutputStream os = null;
         try {
             os = response.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(new File(filePath,fileName)));
+            bis = new BufferedInputStream(new FileInputStream(new File(ConfigUtil.getInstance().getValue("fileDownLoadPath"),fileName)));
             int i = bis.read(buff);
             while (i != -1) {
                 os.write(buff, 0, buff.length);

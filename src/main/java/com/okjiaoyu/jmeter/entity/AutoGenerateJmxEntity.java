@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 public class AutoGenerateJmxEntity implements Serializable {
 
+    private String userName;
     //jmeter版本
     private String jmeterVersion;
+    //接口超时时间
+    private String timeOut;
     //压测时间
     private Integer preTime;
     //压测并发数
@@ -22,6 +25,8 @@ public class AutoGenerateJmxEntity implements Serializable {
     private String requestBeanRenfence;
     //方法参数
     private String param;
+    //断言结果
+    private String assertText;
 
     public String getJmeterVersion() {
         return jmeterVersion;
@@ -94,5 +99,28 @@ public class AutoGenerateJmxEntity implements Serializable {
     public void setParam(String param) {
         this.param = param;
     }
-    
+
+    public String getTimeOut() {
+        return timeOut;
+    }
+
+    public void setTimeOut(String timeOut) {
+        this.timeOut = timeOut;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAssertText() {
+        return assertText;
+    }
+
+    public void setAssertText(String assertText) {
+        this.assertText = assertText;
+    }
 }

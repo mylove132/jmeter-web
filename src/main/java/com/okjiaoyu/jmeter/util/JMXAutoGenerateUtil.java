@@ -69,32 +69,46 @@ public class JMXAutoGenerateUtil {
 
     /**
      * 生成压测数据
-     * {&quot;java&quot;:{&quot;java.lang.String&quot;:&quot;jdk1.8,maven3.2&quot;},&quot;price&quot;:{&quot;java.lang.Double&quot;:&quot;10001.01,10080.099&quot;},&quot;version&quot;:{&quot;java.lang.Long&quot;:&quot;1000001,100002&quot;}}
      * @return
      */
-    public String generatePreData(String preName, String zkAddress, String dubboInterfaceName,
+    public String generatePreData(String timeOut, String preName, String zkAddress, String dubboInterfaceName,
                                   String methodName, String reuqestBeanClass, String params){
         if (preName == null || "".equals(preName)){
-            preName = "dubbo sample case";
+            preName = "dubbo sample";
         }
         if (zkAddress == null || "".equals(zkAddress)){
             zkAddress = "172.18.4.48:2181";
         }
-        String dataValue = " <hashTree>\n" +
-                "        <com.jmeter.plugin.dubbo.DubboPlugin guiclass=\"com.jmeter.plugin.gui.DubboSamplePluginGui\" testclass=\"com.jmeter.plugin.dubbo.DubboPlugin\" testname=\""+preName+"\" enabled=\"true\">\n" +
-                "          <stringProp name=\"ADDRESS\">"+zkAddress+"</stringProp>\n" +
-                "          <stringProp name=\"REGISTRY_PROTOCOL\">zookeeper</stringProp>\n" +
-                "          <stringProp name=\"DUBBO_REGISTRY_SERVICE\">"+dubboInterfaceName+"</stringProp>\n" +
-                "          <stringProp name=\"DUBBO_REGISTRY_METHOD\">"+methodName+"</stringProp>\n" +
-                "          <stringProp name=\"REQUEST_BEAN\">"+reuqestBeanClass+"</stringProp>\n" +
-                "          <stringProp name=\"DUBBO_PARAMS\">"+params+"</stringProp>\n" +
-                "        </com.jmeter.plugin.dubbo.DubboPlugin>";
+        String dataValue = "<hashTree>\n" +
+                "        <com.jmeter.plugin.dubbo.DubboSample guiclass=\"com.jmeter.plugin.gui.DubboSampleGui\" testclass=\"com.jmeter.plugin.dubbo.DubboSample\" testname=\""+preName+"\" enabled=\"true\">\n" +
+                "          <stringProp name=\"FIELD_DUBBO_REGISTRY_PROTOCOL\">zookeeper</stringProp>\n" +
+                "          <stringProp name=\"FIELD_DUBBO_RPC_PROTOCOL\">dubbo://</stringProp>\n" +
+                "          <stringProp name=\"FIELD_DUBBO_ADDRESS\">"+zkAddress+"</stringProp>\n" +
+                "          <stringProp name=\"FIELD_DUBBO_TIMEOUT\">"+timeOut+"</stringProp>\n" +
+                "          <stringProp name=\"FIELD_DUBBO_INTERFACE\">"+dubboInterfaceName+"</stringProp>\n" +
+                "          <stringProp name=\"FIELD_DUBBO_METHOD\">"+methodName+"</stringProp>\n" +
+                "          <intProp name=\"FIELD_DUBBO_METHOD_ARGS_SIZE\">1</intProp>\n" +
+                "          <stringProp name=\"FIELD_DUBBO_METHOD_ARGS_PARAM_TYPE1\">"+reuqestBeanClass+"</stringProp>\n" +
+                "          <stringProp name=\"FIELD_DUBBO_METHOD_ARGS_PARAM_VALUE1\">"+params+"</stringProp>\n" +
+                "        </com.jmeter.plugin.dubbo.DubboSample>";
 
         return dataValue;
     }
-    public String generateWatchResultTree(){
+
+    public String assertGui(String assertText){
         return "<hashTree>\n" +
-                "          <ResultCollector guiclass=\"ViewResultsFullVisualizer\" testclass=\"ResultCollector\" testname=\"View Results Tree\" enabled=\"true\">\n" +
+                "          <ResponseAssertion guiclass=\"AssertionGui\" testclass=\"ResponseAssertion\" testname=\"响应断言\" enabled=\"true\">\n" +
+                "            <collectionProp name=\"Asserion.test_strings\">\n" +
+                "              <stringProp name=\"67791721\">"+assertText+"</stringProp>\n" +
+                "            </collectionProp>\n" +
+                "            <stringProp name=\"Assertion.test_field\">Assertion.response_data</stringProp>\n" +
+                "            <boolProp name=\"Assertion.assume_success\">false</boolProp>\n" +
+                "            <intProp name=\"Assertion.test_type\">16</intProp>\n" +
+                "          </ResponseAssertion>\n" +
+                "          <hashTree/>";
+    }
+    public String generateWatchResultTree(){
+        return "<ResultCollector guiclass=\"ViewResultsFullVisualizer\" testclass=\"ResultCollector\" testname=\"察看结果树\" enabled=\"true\">\n" +
                 "            <boolProp name=\"ResultCollector.error_logging\">false</boolProp>\n" +
                 "            <objProp>\n" +
                 "              <name>saveConfig</name>\n" +
@@ -122,18 +136,17 @@ public class JMXAutoGenerateUtil {
                 "                <assertionsResultsToSave>0</assertionsResultsToSave>\n" +
                 "                <bytes>true</bytes>\n" +
                 "                <sentBytes>true</sentBytes>\n" +
-                "                <url>true</url>\n" +
                 "                <threadCounts>true</threadCounts>\n" +
                 "                <idleTime>true</idleTime>\n" +
                 "                <connectTime>true</connectTime>\n" +
                 "              </value>\n" +
                 "            </objProp>\n" +
                 "            <stringProp name=\"filename\"></stringProp>\n" +
-                "          </ResultCollector>\n" +
-                "          <hashTree/>";
+                "          </ResultCollector>";
     }
     public String generateSumResult(){
-        return "<ResultCollector guiclass=\"SummaryReport\" testclass=\"ResultCollector\" testname=\"Summary Report\" enabled=\"true\">\n" +
+        return "<hashTree/>\n" +
+                "          <ResultCollector guiclass=\"StatVisualizer\" testclass=\"ResultCollector\" testname=\"聚合报告\" enabled=\"true\">\n" +
                 "            <boolProp name=\"ResultCollector.error_logging\">false</boolProp>\n" +
                 "            <objProp>\n" +
                 "              <name>saveConfig</name>\n" +
@@ -161,7 +174,6 @@ public class JMXAutoGenerateUtil {
                 "                <assertionsResultsToSave>0</assertionsResultsToSave>\n" +
                 "                <bytes>true</bytes>\n" +
                 "                <sentBytes>true</sentBytes>\n" +
-                "                <url>true</url>\n" +
                 "                <threadCounts>true</threadCounts>\n" +
                 "                <idleTime>true</idleTime>\n" +
                 "                <connectTime>true</connectTime>\n" +
@@ -178,15 +190,15 @@ public class JMXAutoGenerateUtil {
     }
     public static void main(String[] args) throws IOException {
         JMXAutoGenerateUtil jmxAutoGenerate = new JMXAutoGenerateUtil();
-        String generateValue = jmxAutoGenerate.generateFileHead("5.0")+
+        String generateValue = jmxAutoGenerate.generateFileHead("3.1")+
                 jmxAutoGenerate.generateTopashTree()+
                 jmxAutoGenerate.generateThreadGroup(300,0)+
-                jmxAutoGenerate.generatePreData("美团外卖","","com.noriental.lessonsvr.rservice.ResPackageService","findPublishStudentByClass",
-                        "com.noriental.lessonsvr.entity.request.FindPublishStudentRequest",
-                        "{java:{java.lang.String:jdk1.8,maven3.2},price:{java.lang.Double:10001.01,10080.099},version:{java.lang.Long:1000001,100002}}")+
-                jmxAutoGenerate.generateWatchResultTree()+
+                jmxAutoGenerate.generatePreData("5000","批量查询","","com.noriental.adminsvr.service.teaching.ChapterService","findByIds",
+                        "com.noriental.adminsvr.request.RequestEntity",
+                        "{\"entity\":[200,201,202]}")+
+                jmxAutoGenerate.assertGui("\"code\":0")+jmxAutoGenerate.generateWatchResultTree()+
                 jmxAutoGenerate.generateSumResult();
-        OutputStream os = new FileOutputStream(new File("D:\\test.jmx"));
+        OutputStream os = new FileOutputStream(new File("/Users/liuzhanhui/Downloads/test.jmx"));
         os.write(generateValue.getBytes());
         os.close();
         //System.out.println(jmxAutoGenerate.generateWatchResultTree());

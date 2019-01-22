@@ -2,6 +2,7 @@ package com.okjiaoyu.jmeter;
 
 import com.okjiaoyu.jmeter.cache.CacheListener;
 import com.okjiaoyu.jmeter.cache.CacheManagerImpl;
+import com.okjiaoyu.jmeter.report.CleanReportListen;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
@@ -16,8 +17,13 @@ import javax.servlet.MultipartConfigElement;
 @SpringBootApplication(exclude = MongoAutoConfiguration.class)
 public class Application {
     public static void main(String[] args) {
+        //缓存监听
         CacheListener listener = new CacheListener(new CacheManagerImpl());
         listener.startListen();
+        //报告清除监听
+        CleanReportListen cleanReportListen = new CleanReportListen();
+        Thread thread = new Thread(cleanReportListen);
+        thread.start();
         SpringApplication.run(Application.class, args);
     }
     @Bean

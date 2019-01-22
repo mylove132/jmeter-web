@@ -87,6 +87,20 @@ public class DubboEntity implements Serializable {
         this.requestParamTypeArgs = requestParamTypeArgs;
     }
 
+    @Override
+    public String toString() {
+        return "DubboEntity{" +
+                "protocol='" + protocol + '\'' +
+                ", address='" + address + '\'' +
+                ", interfaceName='" + interfaceName + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", version='" + version + '\'' +
+                ", group='" + group + '\'' +
+                ", timeOut=" + timeOut +
+                ", requestParamTypeArgs=" + requestParamTypeArgs +
+                '}';
+    }
+
     public static void main(String[] args) {
         DubboEntity dubboEntity = new DubboEntity();
         dubboEntity.setGroup(null);

@@ -63,6 +63,6 @@ public class MD5Util {
 
     public static void main(String[] args) {
         System.out.println(MD5_16bit("fwjioejfiowejfiowjfiwfjowejfei"));
-        System.out.println(MD5Util.encrypt("zhudong", "123456"));
+        System.out.println(MD5Util.encrypt("zhangchaoying", "123456"));
     }
 }

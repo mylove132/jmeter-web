@@ -9,18 +9,19 @@ import com.okjiaoyu.jmeter.response.ErrorCode;
 import com.okjiaoyu.jmeter.response.Response;
 import com.okjiaoyu.jmeter.service.AutoGenerateJmxService;
 import com.okjiaoyu.jmeter.util.ClassUtils;
+import com.okjiaoyu.jmeter.util.DateUtil;
 import com.okjiaoyu.jmeter.util.ZkServiceUtil;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
 public class DubboServiceController {
+
+    private Logger log = Logger.getLogger(DubboServiceController.class);
 
     @Autowired
     private AutoGenerateJmxService autoGenerateJmxService;
@@ -98,13 +99,15 @@ public class DubboServiceController {
     }
 
     @RequestMapping(value = "generateJmxFile", method = RequestMethod.POST)
-    public Response autoGenerateJmxFile(AutoGenerateJmxEntity entity) {
+    public Response autoGenerateJmxFile(@RequestBody AutoGenerateJmxEntity entity) {
         Map<String, Object> result = new HashedMap();
         String fileName = autoGenerateJmxService.autoGenerateJmxFile(entity);
         if (null == fileName || "".equals(fileName)) {
             return CommonResponse.makeRsp(ErrorCode.AUTO_GENERATE_JMX_FILE_FAIL);
         } else {
             result.put("fileName", fileName);
+            String createTimeStamp = fileName.split("_")[1].split("\\.")[0];
+            result.put("createTime", DateUtil.formatDate(DateUtil.timeStampTansforDate(Long.parseLong(createTimeStamp))));
             return CommonResponse.makeOKRsp(result);
         }
     }

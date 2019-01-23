@@ -26,9 +26,4 @@ public class ConfigUtil {
         }
         return prop.getProperty(key);
     }
-
-    public static void main(String[] args) {
-        System.out.println(ConfigUtil.getInstance().getValue("fileDownLoadPath"));
-    }
-
 }

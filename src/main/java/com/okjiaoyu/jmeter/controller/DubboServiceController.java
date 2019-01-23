@@ -106,8 +106,8 @@ public class DubboServiceController {
             return CommonResponse.makeRsp(ErrorCode.AUTO_GENERATE_JMX_FILE_FAIL);
         } else {
             result.put("fileName", fileName);
-            String createTimeStamp = fileName.split("_")[1].split("\\.")[0];
-            result.put("createTime", DateUtil.formatDate(DateUtil.timeStampTansforDate(Long.parseLong(createTimeStamp))));
+            String timeStamp = fileName.substring(fileName.lastIndexOf("_")+1,fileName.length()).split("\\.")[0];
+            result.put("createTime", DateUtil.formatDate(DateUtil.timeStampTansforDate(Long.parseLong(timeStamp))));
             return CommonResponse.makeOKRsp(result);
         }
     }

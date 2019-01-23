@@ -201,7 +201,9 @@ public class ClassUtils {
 					|| "Boolean[]".equals(className)) {
 				paramterTypeList.add("java.lang.Boolean[]");
 				parameterValuesList.add(isBlank(arg.getParamValue()) ? null : JsonUtils.formJson(arg.getParamValue(), new TypeToken<Boolean[]>() {}.getType()));
-			} else {
+			} else if(className.contains("<")){
+
+			}else {
 				if (className.endsWith("[]")) {
 					List<?> list = null;
 					if (!isBlank(arg.getParamValue())) {

@@ -196,7 +196,7 @@ function testDubbo() {
             if (data != null) {
                 var storage = window.localStorage;
                 storage.setItem("dubbo_test_value", JSON.stringify(jsonData));
-                $("#testResult").val(JSON.stringify(data))
+                $("#testResult").val(JSON.stringify(data.data))
             }
         },
         error: function (message) {
@@ -233,7 +233,7 @@ function generateReport() {
         return;
     }
 
-    if (preInterfaceName == "" || preInterfaceName == null){
+    if (preInterfaceName == "" || preInterfaceName == null) {
         bootbox.alert({
             size: "small",
             title: "测试接口名称描述不能为空",
@@ -245,7 +245,7 @@ function generateReport() {
         return;
     }
 
-    if (preTime == "" || preTime == null){
+    if (preTime == "" || preTime == null) {
         bootbox.alert({
             size: "small",
             title: "压测时长不能为空",
@@ -257,7 +257,7 @@ function generateReport() {
         return;
     }
 
-    if (preNum == "" || preNum == null){
+    if (preNum == "" || preNum == null) {
         bootbox.alert({
             size: "small",
             title: "测试并发数不能为空",
@@ -269,7 +269,7 @@ function generateReport() {
         return;
     }
 
-    if (assertText == "" || assertText == null){
+    if (assertText == "" || assertText == null) {
         bootbox.alert({
             size: "small",
             title: "断言不能为空",
@@ -295,16 +295,16 @@ function generateReport() {
     jsonData["preName"] = preInterfaceName;
     jsonData["assertText"] = assertText;
 
-    console.log("测试数据："+JSON.stringify(jsonData));
+    console.log("测试数据：" + JSON.stringify(jsonData));
 
     $.ajax({
-        url:"/generateJmxFile",
+        url: "/generateJmxFile",
         contentType: "application/json; charset=utf-8",
-        type:"POST",
+        type: "POST",
         data: JSON.stringify(jsonData),
-        dataType:"json",
-        success:function(data){
-           getUserJmxList();
+        dataType: "json",
+        success: function (data) {
+            getUserJmxList();
         }
     })
 
@@ -316,26 +316,26 @@ function generateReport() {
 function getUserJmxList() {
     $("#jmxList").empty();
     $.ajax({
-        url:"/jmxFileList",
-        data:{
-            userName:$("#userName").text()
+        url: "/jmxFileList",
+        data: {
+            userName: $("#userName").text()
         },
-        dataType:"json",
-        type:"POST",
-        success:function (response) {
-            if (response.code == "0" && response.data != null){
+        dataType: "json",
+        type: "POST",
+        success: function (response) {
+            if (response.code == "0" && response.data != null) {
                 var result = response.data;
-                for (res in result){
+                for (res in result) {
                     var fileName = result[res].fileName;
                     var createTime = result[res].createTime;
                     var createPerson = result[res].createPerson;
-                    var html = "<tr><td>"+createPerson+"</td>" +
-                        "<td>"+fileName+"</td>" +
-                        "<td>"+createTime+"</td>" +
-                        "<td>"+"<button class=\"btn btn-danger\">删除</button>" +
-                        "              <button class=\"btn btn-primary\">下载</button>" +
-                        "              <button class=\"btn btn-primary\">生成测试报告</button>" +
-                        "              <button class=\"btn btn-info\">查看测试报告</button>"+"</td></tr>"
+                    var html = "<tr><td>" + createPerson + "</td>" +
+                        "<td>" + fileName + "</td>" +
+                        "<td>" + createTime + "</td>" +
+                        "<td>" + "<button class=\"btn btn-danger delete-btn\" type='button'>删除</button>" +
+                        "              <button class=\"btn btn-primary download-btn\" type='button'>下载</button>" +
+                        "              <button class=\"btn btn-primary generate-btn\" type='button'>生成测试报告</button>" +
+                        "              <button class=\"btn btn-info see-report-btn\" type='button'>查看测试报告</button>" + "</td></tr>"
                     $("#jmxList").append(html);
                 }
             }
@@ -343,6 +343,100 @@ function getUserJmxList() {
     })
 }
 
+/**
+ * 删除脚本
+ */
+var name, file;
+$(document).on('click','.delete-btn',function (e) {
+    e.preventDefault();
+    $(this).closest('tr').find('td').each(function (i, v) {
+        if (i == 0) {
+            name = $(this).text();
+        }
+        else if (i == 1) {
+            file = $(this).text();
+        }
+    });
+    $.ajax({
+        url:"/deleteJmxFile",
+        type:"POST",
+        data:{
+            userName: name,
+            fileName: file
+        },
+        dataType:"json",
+        success:function (response) {
+            getUserJmxList()
+        }
+    })
+});
+
+/**
+ * 下载脚本文件
+ */
+$(document).on('click','.download-btn',function (e) {
+    $(this).closest('tr').find('td').each(function (i, v) {
+        if (i == 0) {
+            name = $(this).text();
+        }
+        else if (i == 1) {
+            file = $(this).text();
+        }
+    });
+    var url = "/downloadFile";
+    var form = $("<form></form>").attr("action", url).attr("method", "get");
+    form.append($("<input></input>").attr("type", "hidden").attr("name", "fileName").attr("value", file));
+    form.append($("<input></input>").attr("type", "hidden").attr("name", "userName").attr("value", name));
+    form.appendTo('body').submit().remove();
+});
+/**
+ * 生成测试报告
+ */
+$(document).on('click','.generate-btn',function (e) {
+    e.preventDefault();
+    $(this).text("执行中...");
+    $(this).attr('disabled',true);
+    var thisBtn = $(this);
+    $(this).closest('tr').find('td').each(function (i, v) {
+        if (i == 0) {
+            name = $(this).text();
+        }
+        else if (i == 1) {
+            file = $(this).text();
+        }
+    });
+    $.ajax({
+        url:"/execJmeterScript",
+        type:"POST",
+        data:{
+            userName: name,
+            fileName: file
+        },
+        dataType:"json",
+        success:function (response) {
+            if (response.code == "0"){
+                thisBtn.text("执行成功");
+            }else {
+                thisBtn.text("执行失败");
+            }
+        }
+    })
+});
+
+$(document).on('click','.see-report-btn',function (e) {
+    $(this).closest('tr').find('td').each(function (i, v) {
+        if (i == 0) {
+            name = $(this).text();
+        }
+        else if (i == 1) {
+            file = $(this).text();
+        }
+    });
+    var url = encodeURI("http://127.0.0.1:8082/"+name+"/"+file.split(".")[0]+"/index.html");
+    console.log(url);
+    window.open(url);
+});
+
 $(document).ready(function () {
     getUserJmxList();
-})
+});

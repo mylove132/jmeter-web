@@ -22,6 +22,7 @@ import com.google.gson.JsonSyntaxException;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
@@ -60,4 +61,5 @@ public class JsonUtils {
 		}
 		return null;
 	}
+
 }

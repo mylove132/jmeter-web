@@ -1,5 +1,7 @@
 server:
   port: 8081
+  tomcat:
+    uri-encoding: UTF-8
 spring:
   thymeleaf:
     prefix: classpath:/templates/
@@ -34,3 +36,9 @@ spring:
   aop:
     auto: true
     proxy-target-class: true
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+

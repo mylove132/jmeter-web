@@ -2,30 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d637c06f-9d4f-4b69-bb28-f041879fe395" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/util/DeleteFolderUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/DubboServiceController.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/DubboServiceController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/FileController$1.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/FileController$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/FileController$2.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/FileController$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/FileController.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/controller/FileController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/service/AutoGenerateJmxService.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/service/AutoGenerateJmxService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$17.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$17.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$18.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils$18.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ClassUtils.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ConfigUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/ConfigUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/JsonUtils.class" afterPath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/JsonUtils.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/root.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/okjiaoyu/jmeter/util/CleanReportListen.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/controller/DubboServiceController.java" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/controller/DubboServiceController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/controller/FileController.java" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/controller/FileController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/service/AutoGenerateJmxService.java" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/service/AutoGenerateJmxService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/util/ClassUtils.java" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/util/ClassUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/util/ConfigUtil.java" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/util/ConfigUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/util/JsonUtils.java" afterPath="$PROJECT_DIR$/src/main/java/com/okjiaoyu/jmeter/util/JsonUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/config.properties" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/home.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/home.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application.yml" afterPath="$PROJECT_DIR$/target/classes/application.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/config.properties" afterPath="$PROJECT_DIR$/target/classes/config.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/js/home.js" afterPath="$PROJECT_DIR$/target/classes/static/js/home.js" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -54,7 +33,7 @@
       <file leaf-file-name="home.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/home.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="667">
+            <state relative-caret-position="686">
               <caret line="437" column="3" lean-forward="false" selection-start-line="437" selection-start-column="3" selection-end-line="437" selection-end-column="3" />
               <folding>
                 <element signature="e#3101#3180#0" expanded="false" />
@@ -217,8 +196,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1406" />
-    <option name="y" value="-1003" />
+    <option name="x" value="1796" />
+    <option name="y" value="-1026" />
     <option name="width" value="1732" />
     <option name="height" value="977" />
   </component>
@@ -262,39 +241,6 @@
               <item name="jmeter-web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jmeter-web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jmeter-web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="jmeter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jmeter-web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jmeter-web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="jmeter" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jmeter-web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jmeter-web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="jmeter" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jmeter-web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jmeter-web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -313,14 +259,6 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jmeter-web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jmeter-web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="jmeter-web" type="b2602c69:ProjectViewProjectNode" />
@@ -601,12 +539,12 @@
       <workItem from="1547967872841" duration="17041000" />
       <workItem from="1548035540906" duration="33181000" />
       <workItem from="1548120868442" duration="45985000" />
-      <workItem from="1548235817148" duration="158000" />
+      <workItem from="1548235817148" duration="384000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="194957000" />
+    <option name="totallyTimeSpent" value="195183000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -618,7 +556,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1406" y="-1003" width="1732" height="977" extended-state="0" />
+    <frame x="1796" y="-1026" width="1732" height="977" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43074793" sideWeight="0.5028612" order="7" side_tool="true" content_ui="tabs" />
@@ -877,6 +815,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="900">
           <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -921,6 +860,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="703">
           <caret line="198" column="34" lean-forward="false" selection-start-line="198" selection-start-column="34" selection-end-line="198" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1051,7 +991,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/home.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
+        <state relative-caret-position="686">
           <caret line="437" column="3" lean-forward="false" selection-start-line="437" selection-start-column="3" selection-end-line="437" selection-end-column="3" />
           <folding>
             <element signature="e#3101#3180#0" expanded="false" />

@@ -6,6 +6,7 @@ import com.okjiaoyu.jmeter.response.Response;
 import com.okjiaoyu.jmeter.util.ConfigUtil;
 import com.okjiaoyu.jmeter.util.DateUtil;
 import com.okjiaoyu.jmeter.util.DeleteFolderUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,14 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class FileController {
-
 
     /**
      * 获取用户的脚本目录
@@ -37,7 +34,7 @@ public class FileController {
         String rootPath = ConfigUtil.getInstance().getValue("fileGeneratePath");
         File rootFile = new File(rootPath);
         if (!rootFile.isDirectory() || rootFile.listFiles().length == 0) {
-            return CommonResponse.makeErrRsp("目录没有文件");
+            return CommonResponse.makeErrRsp("没有脚本文件");
         }
         File[] userFils = rootFile.listFiles(new FileFilter() {
             @Override
@@ -66,14 +63,49 @@ public class FileController {
                     result.put("createPerson", userName);
                     result.put("fileName", jmxFile.getName());
                     String fileName = jmxFile.getName();
-                    String timeStamp = fileName.substring(fileName.lastIndexOf("_") + 1, fileName.length()).split("\\.")[0];
-                    String date = DateUtil.formatDate(DateUtil.timeStampTansforDate(Long.parseLong(timeStamp)));
+                    String[] timeStamps = fileName.split("_");
+                    String timeStamp = "";
+                    if (timeStamps.length > 2) {
+                        timeStamp = timeStamps[1];
+                    } else if (timeStamps.length == 2) {
+                        timeStamp = timeStamps[1].split("\\.")[0];
+                    }
+                    String date = DateUtil.timeStamp2Date(timeStamp);
                     result.put("createTime", date);
                     resultList.add(result);
                 }
             }
         }
         return CommonResponse.makeOKRsp(resultList);
+    }
+
+    @PostMapping(value = "/reportList")
+    public Response jmxReportList(String userName, String fileName) {
+        List<String> reportNameList = new ArrayList<>();
+        String rootPath = ConfigUtil.getInstance().getValue("jmeterReportPath");
+        File userFile = new File(rootPath + "/" + userName);
+        if (!userFile.isDirectory() || !userFile.exists()) {
+            return CommonResponse.makeOKRsp();
+        }
+        File[] reportList = userFile.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.isDirectory();
+            }
+        });
+        if (reportList.length == 0) {
+            return CommonResponse.makeOKRsp();
+        } else {
+            String startFileName = fileName.split("_")[0];
+            for (File file : reportList) {
+                if (file.getName().startsWith(startFileName)) {
+                    reportNameList.add(file.getName());
+                }
+            }
+        }
+        Map<String, List<String>> result = new HashMap<>();
+        result.put("reportNameList", reportNameList);
+        return CommonResponse.makeOKRsp(result);
     }
 
     /**
@@ -108,25 +140,71 @@ public class FileController {
                     boolean isReportDelete = false;
                     boolean isLogDelete = false;
                     boolean isJtlDelete = false;
-                    String reportPath = ConfigUtil.getInstance().getValue("jmeterReportPath")+"/"+userName+"/"+fileName.split("\\.")[0];
-                    if (new File(reportPath).exists()){
-                        isReportDelete = DeleteFolderUtil.delFolder(reportPath);
-                    }else{
-                        System.out.println(reportPath+"目录不存在");
+                    String reportPath = ConfigUtil.getInstance().getValue("jmeterReportPath") + "/" + userName;
+                    if (new File(reportPath).exists()) {
+                        File[] reportDirs = new File(reportPath).listFiles(new FileFilter() {
+                            @Override
+                            public boolean accept(File pathname) {
+                                return pathname.isDirectory() && pathname.getName().startsWith(fileName.split("_")[0] + "_" + fileName.split("_")[1]);
+                            }
+                        });
+                        if (reportDirs.length > 0) {
+                            for (File reportDir : reportDirs) {
+                                isReportDelete = DeleteFolderUtil.delFolder(reportDir.getAbsolutePath());
+                                if (!isReportDelete) {
+                                    isReportDelete = false;
+                                    break;
+                                }
+                            }
+                        } else {
+                            isReportDelete = true;
+                        }
+                    } else {
+                        System.out.println(reportPath + "目录不存在");
                         isReportDelete = true;
                     }
-                    String logPath = ConfigUtil.getInstance().getValue("jmeterExecLogPath")+"/"+userName+"/"+fileName.split("\\.")[0]+".log";
-                    if (new File(logPath).exists()){
-                        isLogDelete = new File(logPath).delete();
-                    }else {
-                        System.out.println(logPath+"日志不存在");
+                    String logPath = ConfigUtil.getInstance().getValue("jmeterExecLogPath") + "/" + userName;
+                    if (new File(logPath).exists()) {
+                        File[] logFiles = new File(logPath).listFiles(new FileFilter() {
+                            @Override
+                            public boolean accept(File pathname) {
+                                return pathname.isFile() && pathname.getName().startsWith(fileName.split("_")[0] + "_" + fileName.split("_")[1]);
+                            }
+                        });
+                        if (logFiles.length > 0) {
+                            for (File file : logFiles) {
+                                isLogDelete = file.delete();
+                                if (!isLogDelete) {
+                                    isLogDelete = false;
+                                    break;
+                                }
+                            }
+                        } else {
+                            isLogDelete = true;
+                        }
+                    } else {
+                        System.out.println(logPath + "日志不存在");
                         isLogDelete = true;
                     }
-                    String jtlPath = ConfigUtil.getInstance().getValue("jmeterResultPath")+"/"+userName+"/"+fileName.split("\\.")[0]+".jtl";
-                    if (new File(jtlPath).exists()){
-                        isJtlDelete = new File(jtlPath).delete();
-                    }else {
-                        System.out.println(jtlPath+"结果不存在");
+                    String jtlPath = ConfigUtil.getInstance().getValue("jmeterResultPath") + "/" + userName;
+                    if (new File(jtlPath).exists()) {
+                        File[] jtlFiles = new File(jtlPath).listFiles(new FileFilter() {
+                            @Override
+                            public boolean accept(File pathname) {
+                                return pathname.isFile() && pathname.getName().startsWith(fileName.split("_")[0] + "_" + fileName.split("_")[1]);
+                            }
+                        });
+                        if (jtlFiles.length > 0) {
+                            for (File jtlFile : jtlFiles) {
+                                isJtlDelete = jtlFile.delete();
+                                if (!isJtlDelete) {
+                                    isJtlDelete = false;
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        System.out.println(jtlPath + "结果不存在");
                         isJtlDelete = true;
                     }
                     Map<String, Object> result = new HashMap<>();
@@ -135,14 +213,11 @@ public class FileController {
                     result.put("isLogDelete", isLogDelete);
                     result.put("isJtlDelete", isJtlDelete);
                     return CommonResponse.makeOKRsp(result);
-                } else {
-                    return CommonResponse.makeErrRsp("删除文件不存在");
                 }
-            } else {
-                return CommonResponse.makeErrRsp("删除文件不存在");
             }
+
         }
-        return CommonResponse.makeErrRsp("删除文件不存在");
+        return CommonResponse.makeOKRsp();
     }
 
     /**
@@ -213,6 +288,7 @@ public class FileController {
 
     /**
      * 执行jmeter脚本
+     *
      * @param fileName
      * @param userName
      * @return
@@ -221,6 +297,7 @@ public class FileController {
     @RequestMapping(value = "execJmeterScript", method = RequestMethod.POST)
     public Response execJmeterScript(String fileName, String userName) throws IOException {
 
+        String time = DateUtil.timeStamp();
         //脚本位置
         String scriptFilePath = ConfigUtil.getInstance().getValue("fileGeneratePath") + "/" + userName + "/" + fileName;
 
@@ -230,7 +307,12 @@ public class FileController {
         if (!rootFile.isDirectory() || !rootFile.exists()) {
             rootFile.mkdirs();
         }
-        File reportDir = new File(rootPath + "/" + fileName.split("\\.")[0]);
+        File reportDir = null;
+        if (fileName.split("_").length > 2){
+            reportDir = new File(rootPath + "/" + fileName.split("_")[0]+"_"+ fileName.split("_")[1] + "_" + time);
+        }else {
+            reportDir = new File(rootPath + "/" + fileName.split("\\.")[0] + "_" + time);
+        }
         if (!reportDir.isDirectory() || !reportDir.exists()) {
             reportDir.mkdirs();
         }
@@ -240,21 +322,32 @@ public class FileController {
         if (!jtlRootFile.isDirectory() || !jtlRootFile.exists()) {
             jtlRootFile.mkdirs();
         }
+        if (fileName.split("_").length > 2){
+            jtlRootPath = jtlRootPath + "/"+fileName.split("_")[0]+"_"+fileName.split("_")[1]+"_"+time+".jtl";
+        }else {
+            jtlRootPath = jtlRootPath + "/"
+                    + fileName.split("\\.")[0] + "_" + time + ".jtl";
+        }
         //执行日志存放位置
-        String logRootPath = ConfigUtil.getInstance().getValue("jmeterExecLogPath")+"/"+userName;
+        String logRootPath = ConfigUtil.getInstance().getValue("jmeterExecLogPath") + "/" + userName;
         File logFile = new File(logRootPath);
         if (!logFile.isDirectory() || !logFile.exists()) {
             logFile.mkdirs();
         }
+        if (fileName.split("_").length > 2){
+            logRootPath = logRootPath + "/"+fileName.split("_")[0]+"_"+fileName.split("_")[1]+"_"+time+".log";
+        }else {
+            logRootPath = logRootPath + "/" + fileName.split("\\.")[0] + "_" + time + ".log";
+        }
         String cmd = "/Users/liuzhanhui/Documents/jmeter/apache-jmeter-3.1/bin/jmeter -n -t "
                 + scriptFilePath
                 + " -l "
-                + jtlRootPath + "/"
-                + fileName.split("\\.")[0] + ".jtl"
+                +
+                jtlRootPath
                 + " -e -o "
                 + reportDir.getAbsolutePath()
-                +" -j "
-                +logRootPath+"/"+fileName.split("\\.")[0] + ".log";
+                + " -j "
+                + logRootPath;
 
         try {
             Process ps = Runtime.getRuntime().exec(cmd);
@@ -265,14 +358,28 @@ public class FileController {
             while ((line = br.readLine()) != null) {
                 sb.append(line).append("\n");
             }
-            String result = sb.toString();
-            System.out.println(result);
         } catch (Exception e) {
             return CommonResponse.makeErrRsp("执行脚本出错，请下载检查脚本");
         }
-        Map<String,String> result = new HashMap<>();
-        result.put("reportPath",reportDir.getAbsolutePath());
-        result.put("logPath",logRootPath+"/"+fileName.split("\\.")[0] + ".log");
+        if (fileName.split("_").length > 1) {
+            String[] names = fileName.split("\\.")[0].split("_");
+            boolean rename = new File(scriptFilePath).renameTo(
+                    new File(ConfigUtil.getInstance().getValue("fileGeneratePath") + "/" +
+                            userName + "/" + names[0] + "_" + names[1] + "_" + time + ".jmx"));
+            if (!rename) {
+                return CommonResponse.makeRsp(ErrorCode.SCRIPT_RENAME_FAIL);
+            }
+        } else {
+            boolean rename = new File(scriptFilePath).renameTo(
+                    new File(ConfigUtil.getInstance().getValue("fileGeneratePath") + "/" +
+                            userName + "/" + fileName.split("\\.")[0] + "_" + time + ".jmx"));
+            if (!rename) {
+                return CommonResponse.makeRsp(ErrorCode.SCRIPT_RENAME_FAIL);
+            }
+        }
+        Map<String, String> result = new HashMap<>();
+        result.put("reportPath", reportDir.getAbsolutePath());
+        result.put("logPath", logRootPath + "/" + fileName.split("\\.")[0] + ".log");
         return CommonResponse.makeOKRsp(result);
     }
 

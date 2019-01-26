@@ -12,12 +12,11 @@ import java.util.Date;
 public class FileEntity implements Serializable {
 
     private static final long serialVersionUID = -2567457932227227262L;
-
     private Integer id;
-    private String fileName;
+    private String name;
     private Integer uid;
-    private byte[] file;
-    private Date createDate;
+    private Date createTime;
+    private Date execTime;
 
     public Integer getId() {
         return id;
@@ -27,12 +26,12 @@ public class FileEntity implements Serializable {
         this.id = id;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getName() {
+        return name;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getUid() {
@@ -43,19 +42,19 @@ public class FileEntity implements Serializable {
         this.uid = uid;
     }
 
-    public byte[] getFile() {
-        return file;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setFile(byte[] file) {
-        this.file = file;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getExecTime() {
+        return execTime;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setExecTime(Date execTime) {
+        this.execTime = execTime;
     }
 }

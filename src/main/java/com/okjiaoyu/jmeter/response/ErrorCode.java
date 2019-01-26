@@ -15,6 +15,7 @@ public enum ErrorCode {
     UPLOAD_FILE_EMPTY(2001, "上传的文件为空，请检查"),
     //上传文件转换异常
     UPLOAD_FILE_TRANSFER_FAIL(2002, "上传文件转换失败"),
+    SCRIPT_RENAME_FAIL(2003, "脚本重命名失败"),
     //未知错误
     FAIL(-1),
     //用户名不存在
@@ -25,6 +26,9 @@ public enum ErrorCode {
     LOGIN_ACCOUNT_ISLOCK(6003,"账号不可用"),
     //账号认证失败
     LOGIN_PASSWORD_AUTHERTICATION_FAIL(6004,"账号密码认证失败"),
+    TIMER_TASK_EXIST(7001,"定时任务已存在"),
+    TIMER_LITTLE_CURRENT_TIME(7002,"定时时间不能小于当前时间"),
+    TIMER_TASK_CANCEL_FAIL(7003,"定时任务取消失败"),
     // 未认证（签名错误）
     UNAUTHORIZED(401),
 

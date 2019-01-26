@@ -107,7 +107,7 @@ public class DubboServiceController {
         } else {
             result.put("fileName", fileName);
             String timeStamp = fileName.substring(fileName.lastIndexOf("_")+1,fileName.length()).split("\\.")[0];
-            result.put("createTime", DateUtil.formatDate(DateUtil.timeStampTansforDate(Long.parseLong(timeStamp))));
+            result.put("createTime", DateUtil.timeStamp2Date(timeStamp));
             return CommonResponse.makeOKRsp(result);
         }
     }

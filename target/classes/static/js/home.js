@@ -310,6 +310,23 @@ function generateReport() {
 
 }
 
+function getReportList(fileName, callback) {
+    var result = [];
+    $.ajax({
+        url: "/reportList",
+        data: {
+            fileName: fileName,
+            userName: $("#userName").text()
+        },
+        dataType: "json",
+        type: "POST",
+        success: function (response) {
+            result = response.data.reportNameList;
+            callback(result);
+        }
+    });
+}
+
 /**
  * 获取用户脚本列表
  */
@@ -335,7 +352,10 @@ function getUserJmxList() {
                         "<td>" + "<button class=\"btn btn-danger delete-btn\" type='button'>删除</button>" +
                         "              <button class=\"btn btn-primary download-btn\" type='button'>下载</button>" +
                         "              <button class=\"btn btn-primary generate-btn\" type='button'>生成测试报告</button>" +
-                        "              <button class=\"btn btn-info see-report-btn\" type='button'>查看测试报告</button>" + "</td></tr>"
+                        "              <button class=\"btn btn-primary get_report_list\" type='button'>获取报告列表</button>" +
+
+                        "</td>"
+                        + "<td><select class='form-control input-md report_show_list'><option>==请选择==</option></select></td></tr>"
                     $("#jmxList").append(html);
                 }
             }
@@ -343,29 +363,75 @@ function getUserJmxList() {
     })
 }
 
-/**
- * 删除脚本
- */
-var name, file;
-$(document).on('click','.delete-btn',function (e) {
-    e.preventDefault();
+
+function getUserJmxScriptToTimerTask() {
+    $("#jmxList").empty();
+    $.ajax({
+        url: "/jmxFileList",
+        data: {
+            userName: $("#userName").text()
+        },
+        dataType: "json",
+        type: "POST",
+        success: function (response) {
+            if (response.code == "0" && response.data != null) {
+                var result = response.data;
+                for (i in result) {
+                    $("#timer_task_script_name").append('<option>' + result[i].fileName + '</option>');
+                }
+            }
+        }
+    })
+}
+
+$(document).on('change', '.report_show_list', function (e) {
     $(this).closest('tr').find('td').each(function (i, v) {
         if (i == 0) {
             name = $(this).text();
         }
         else if (i == 1) {
             file = $(this).text();
+        } else if (i == 4) {
+            let reportDirName = file.split(".")[0];
+            let lastSpiltIndex = reportDirName.lastIndexOf('_');
+            let ns = reportDirName.substr(0,lastSpiltIndex);
+            var reportName = $(this).find("option:selected").text();
+            let rn = new Date(reportName).valueOf()/1000;
+            if (reportName != "==请选择==") {
+                var url = encodeURI("http://172.16.20.198:8082/"+name+"/" + ns+"_"+rn + "/index.html");
+                console.log(url);
+                window.open(url);
+            } else {
+                alert("请选择报告")
+            }
+        }
+    });
+
+})
+/**
+ * 删除脚本
+ */
+var name, file, reportNameList;
+$(document).on('click', '.delete-btn', function (e) {
+    e.preventDefault();
+    $(this).closest('tr').find('td').each(function (i, v) {
+        if (i == 0) {
+            name = $(this).text();
+
+        }
+        else if (i == 1) {
+            file = $(this).text();
         }
     });
     $.ajax({
-        url:"/deleteJmxFile",
-        type:"POST",
-        data:{
+        url: "/deleteJmxFile",
+        type: "POST",
+        data: {
             userName: name,
             fileName: file
         },
-        dataType:"json",
-        success:function (response) {
+        dataType: "json",
+        success: function (response) {
             getUserJmxList()
         }
     })
@@ -374,7 +440,7 @@ $(document).on('click','.delete-btn',function (e) {
 /**
  * 下载脚本文件
  */
-$(document).on('click','.download-btn',function (e) {
+$(document).on('click', '.download-btn', function (e) {
     $(this).closest('tr').find('td').each(function (i, v) {
         if (i == 0) {
             name = $(this).text();
@@ -392,10 +458,10 @@ $(document).on('click','.download-btn',function (e) {
 /**
  * 生成测试报告
  */
-$(document).on('click','.generate-btn',function (e) {
+$(document).on('click', '.generate-btn', function (e) {
     e.preventDefault();
     $(this).text("执行中...");
-    $(this).attr('disabled',true);
+    $(this).attr('disabled', true);
     var thisBtn = $(this);
     $(this).closest('tr').find('td').each(function (i, v) {
         if (i == 0) {
@@ -406,37 +472,202 @@ $(document).on('click','.generate-btn',function (e) {
         }
     });
     $.ajax({
-        url:"/execJmeterScript",
-        type:"POST",
-        data:{
+        url: "/execJmeterScript",
+        type: "POST",
+        data: {
             userName: name,
             fileName: file
         },
-        dataType:"json",
-        success:function (response) {
-            if (response.code == "0"){
-                thisBtn.text("执行成功");
-            }else {
+        dataType: "json",
+        success: function (response) {
+            if (response.code == "0") {
+                alert("执行成功");
+                getUserJmxList();
+            } else {
                 thisBtn.text("执行失败");
             }
         }
     })
 });
 
-$(document).on('click','.see-report-btn',function (e) {
+/**
+ * 获取报告列表
+ */
+$(document).on('click', '.get_report_list', function (e) {
     $(this).closest('tr').find('td').each(function (i, v) {
         if (i == 0) {
             name = $(this).text();
         }
         else if (i == 1) {
             file = $(this).text();
+        } else if (i == 4) {
+            var select = $(this).children();
+            getReportList(file, function (data) {
+                if (data.length == 0){
+                    alert("没有测试报告，请压测")
+                }
+                for (reportName in data) {
+                    var names = data[reportName].split('_');
+                    var timeName = names[names.length - 1];
+                    console.log(formatDate((timeName)))
+                    select.append('<option>' + formatDate(timeName) + '</option>');
+                }
+            });
+
         }
     });
-    var url = encodeURI("http://127.0.0.1:8082/"+name+"/"+file.split(".")[0]+"/index.html");
-    console.log(url);
-    window.open(url);
+
 });
+
+/**
+ * 时间格式方法
+ *
+ * @param {any} timeStamp  时间戳，秒级/毫秒级
+ * @param {any} type 格式化时间类型，默认  Y-M-D H:I:S
+ * @returns {string} formatTime 格式化后的时间 例如： 2017-05-05 12:09:22
+ */
+function formatDate(timeStamp, type = 'Y-M-D H:I:S', auto = false) {
+    let time = (timeStamp + '').length === 10 ? new Date(parseInt(timeStamp) * 1000) : new Date(parseInt(timeStamp));
+    let _year = time.getFullYear();
+    let _month = (time.getMonth() + 1) < 10 ? '0' + (time.getMonth() + 1) : (time.getMonth() + 1);
+    let _date = time.getDate() < 10 ? '0' + time.getDate() : time.getDate();
+    let _hours = time.getHours() < 10 ? '0' + time.getHours() : time.getHours();
+    let _minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+    let _secconds = time.getSeconds() < 10 ? '0' + time.getSeconds() : time.getSeconds();
+    let formatTime = '';
+    let distinctTime = new Date().getTime() - time.getTime();
+
+    if (auto) {
+        if (distinctTime <= (1 * 60 * 1000)) {
+            // console.log('一分钟以内，以秒数计算');
+            let _s = Math.floor((distinctTime / 1000) % 60);
+            formatTime = _s + '秒前';
+        } else if (distinctTime <= (1 * 3600 * 1000)) {
+            // console.log('一小时以内,以分钟计算');
+            let _m = Math.floor((distinctTime / (60 * 1000)) % 60);
+            formatTime = _m + '分钟前';
+        } else if (distinctTime <= (24 * 3600 * 1000)) {
+            // console.log('一天以内，以小时计算');
+            let _h = Math.floor((distinctTime / (60 * 60 * 1000)) % 24);
+            formatTime = _h + '小时前';
+        } else if (distinctTime <= (30 * 24 * 3600 * 1000)) {
+            let _d = Math.floor((distinctTime / (24 * 60 * 60 * 1000)) % 30);
+            formatTime = _d + '天前';
+            // console.log('30天以内,以天数计算');
+        } else {
+            // 30天以外只显示年月日
+            formatTime = _year + '-' + _month + '-' + _date;
+        }
+    } else {
+
+        switch (type) {
+            case 'Y-M-D H:I:S':
+                formatTime = _year + '-' + _month + '-' + _date + ' ' + _hours + ':' + _minutes + ':' + _secconds;
+                break;
+            case 'Y-M-D H:I:S zh':
+                formatTime = _year + '年' + _month + '月' + _date + '日  ' + _hours + ':' + _minutes + ':' + _secconds;
+                break;
+            case 'Y-M-D H:I':
+                formatTime = _year + '-' + _month + '-' + _date + ' ' + _hours + ':' + _minutes;
+                break;
+            case 'Y-M-D H':
+                formatTime = _year + '-' + _month + '-' + _date + ' ' + _hours;
+                break;
+            case 'Y-M-D':
+                formatTime = _year + '-' + _month + '-' + _date;
+                break;
+            case 'Y-M-D zh':
+                formatTime = _year + '年' + _month + '月' + _date + '日';
+                break;
+            case 'Y-M':
+                formatTime = _year + '-' + _month;
+                break;
+            case 'Y':
+                formatTime = _year;
+                break;
+            case 'M':
+                formatTime = _month;
+                break;
+            case 'D':
+                formatTime = _date;
+                break;
+            case 'H':
+                formatTime = _hours;
+                break;
+            case 'I':
+                formatTime = _minutes;
+                break;
+            case 'S':
+                formatTime = _secconds;
+                break;
+            default:
+                formatTime = _year + '-' + _month + '-' + _date + ' ' + _hours + ':' + _minutes + ':' + _secconds;
+                break;
+        }
+    }
+    // 返回格式化的日期字符串
+    return formatTime;
+}
 
 $(document).ready(function () {
     getUserJmxList();
+    getUserJmxScriptToTimerTask();
 });
+
+$(document).on('click', '#add_timer_task_btn', function () {
+    $("#update").modal('show');
+});
+
+function addTimerTask() {
+    var scriptName = $("#timer_task_script_name").find("option:selected").text();
+    var time = $("#task_timer").val();
+
+    alert(scriptName);
+    alert(time);
+
+    $.ajax({
+        url: "/updateTimerTask",
+        data: {
+            fileName: scriptName,
+            time: time,
+            userName: $("#userName").text()
+        },
+        dataType: "json",
+        type: "post",
+        success: function (response) {
+            console.log(response)
+            if (response.code == "0") {
+                $("#update").modal('hide');
+                var userName = $("#userName").text();
+                var fName = scriptName;
+                var t = time;
+                var html = "<tr><td>" + userName + "</td>" +
+                    "<td>" + fName + "</td>" +
+                    "<td>" + t + "</td>" +
+                    "<td>" + "<button class=\"btn btn-danger delete-timer_btn\" type='button'>删除</button>" +
+                    "              <button class=\"btn btn-primary update_timer-btn\" type='button'>修改</button>";
+                $("#timer_task_list").append(html);
+            } else {
+                if (response.code == "7002") {
+                    alert(response.msg);
+                } else {
+                    alert("添加定时任务失败");
+                }
+            }
+        }
+    })
+}
+
+function getTimerTaskList() {
+    $.ajax({
+        url: "/getTimerTaskList",
+        data: {
+            userName: $("#userName").text()
+        },
+        success: function (response) {
+            if (response.code == "0") {
+                response.data.fileName
+            }
+        }
+    })
+}

@@ -9,4 +9,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM entity_user where name = #{userName}")
     User findByUserName(String userName);
+
+    @Select("SELECT id FROM entity_user where name = #{userName}")
+    Integer findUserId(String userName);
 }

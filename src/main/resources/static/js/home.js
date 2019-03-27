@@ -397,7 +397,7 @@ $(document).on('change', '.report_show_list', function (e) {
             var reportName = $(this).find("option:selected").text();
             let rn = new Date(reportName).valueOf()/1000;
             if (reportName != "==请选择==") {
-                var url = encodeURI("http://172.16.20.198:8082/"+name+"/" + ns+"_"+rn + "/index.html");
+                var url = encodeURI("http://172.18.4.55:8082/"+name+"/" + ns+"_"+rn + "/index.html");
                 console.log(url);
                 window.open(url);
             } else {

@@ -339,7 +339,7 @@ public class FileController {
         }else {
             logRootPath = logRootPath + "/" + fileName.split("\\.")[0] + "_" + time + ".log";
         }
-        String cmd = "/Users/liuzhanhui/Documents/jmeter/apache-jmeter-3.1/bin/jmeter -n -t "
+        String cmd = ConfigUtil.getInstance().getValue("jmeterPath")+" -n -t "
                 + scriptFilePath
                 + " -l "
                 +

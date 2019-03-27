@@ -17,10 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class FileController {
 
+    static ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 2,
+            200,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingDeque<>(2));
     /**
      * 获取用户的脚本目录
      *
@@ -349,18 +356,8 @@ public class FileController {
                 + " -j "
                 + logRootPath;
 
-        try {
-            Process ps = Runtime.getRuntime().exec(cmd);
-            ps.waitFor();
-            BufferedReader br = new BufferedReader(new InputStreamReader(ps.getInputStream()));
-            StringBuffer sb = new StringBuffer();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-        } catch (Exception e) {
-            return CommonResponse.makeErrRsp("执行脚本出错，请下载检查脚本");
-        }
+            executor.execute(new ExecJmeterScript(cmd));
+
         if (fileName.split("_").length > 1) {
             String[] names = fileName.split("\\.")[0].split("_");
             boolean rename = new File(scriptFilePath).renameTo(
@@ -383,4 +380,27 @@ public class FileController {
         return CommonResponse.makeOKRsp(result);
     }
 
+}
+class ExecJmeterScript implements Runnable{
+
+    private String cmd;
+    public ExecJmeterScript(String cmd){
+        this.cmd = cmd;
+    }
+
+    @Override
+    public void run() {
+        try {
+            Process ps = Runtime.getRuntime().exec(cmd);
+            ps.waitFor();
+            BufferedReader br = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+            StringBuffer sb = new StringBuffer();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("执行脚本出错");
+        }
+    }
 }
